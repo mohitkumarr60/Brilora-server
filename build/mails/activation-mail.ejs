@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activation Code</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        h2 {
+            color: #007BFF;
+        }
+
+        p {
+            color: #333;
+        }
+
+        .activation-code {
+            font-size: 24px;
+            font-weight: bold;
+            color: #28A745;
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: #6C757D;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Account Activation</h2>
+        <p>Hello <%= user.name %>,</p>
+        <p>Thank you for signing up! To activate your account, please use the following activation code:</p>
+        <p class="activation-code">
+            <%= activationCode %>
+        </p>
+        <p>If you didn't sign up for this account, you can safely ignore this email.</p>
+        <div class="footer">
+            <p>Best regards,<br>LMS, Nirman Labs</p>
+        </div>
+    </div>
+</body>
+
+</html>

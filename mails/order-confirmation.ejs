@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS - Order Confirmation</title>
+    <style>
+        /* Base styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #666;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        li:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Branding */
+        .logo {
+            margin-bottom: 20px;
+        }
+
+        .logo img {
+            width: 150px;
+            height: auto;
+        }
+
+        /* Call to action */
+        .cta {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .cta a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .cta a:hover {
+            background-color: #222;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Congratulations,</h1>
+        <p>Your order for the course has been confirmed.</p>
+        <p>Here are the details of your purchase:</p>
+        <ul>
+            <li><strong>Order ID:</strong>
+                <%= order._id %>
+            </li>
+            <li><strong>Course Name:</strong>
+                <%= order.name %>
+            </li>
+            <li><strong>Price:</strong>
+                <%= order.price %>
+            </li>
+            <li><strong>Date:</strong>
+                <%= order.date %>
+            </li>
+        </ul>
+        <p>We are excited to have you join this course! You can access the course materials by logging in to
+            your LMS account and navigating to the "My Courses" section.</p>
+        <p>If you have any questions, please don't hesitate to contact us.</p>
+        <div class="cta">
+            <a href="#">Start Learning Now</a>
+        </div>
+        <p>Sincerely,</p>
+        <p>The LMS Team</p>
+    </div>
+</body>
+
+</html>
