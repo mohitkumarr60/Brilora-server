@@ -24,7 +24,7 @@ exports.app.use(express_1.default.urlencoded({ limit: "50mb", extended: true }))
 exports.app.use((0, cookie_parser_1.default)());
 //cors => cross origin resource sharing 
 exports.app.use((0, cors_1.default)({
-    origin: ['https://code-connect-client-delta.vercel.app'],
+    origin: ['http://localhost:3000'],
     credentials: true,
 }));
 //routes

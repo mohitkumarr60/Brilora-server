@@ -325,7 +325,9 @@ const markModuleComplete = async (req, res, next) => {
         const { moduleId, courseId } = req.body;
         const userId = req.user?._id;
         const user = await user_model_1.default.findById(userId);
+        console.log(req.body);
         const currentCourse = await course_model_1.default.findById(courseId);
+        console.log(moduleId, courseId);
         if (!user) {
             return next(new ErrorHandler_1.default("User not found", 404));
         }

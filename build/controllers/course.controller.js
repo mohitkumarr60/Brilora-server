@@ -118,7 +118,7 @@ exports.getCourseByUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, re
     try {
         const userCourseList = req.user?.courses;
         const courseId = req.params.id;
-        const courseExists = userCourseList?.find((course) => course.courseIid === courseId);
+        const courseExists = userCourseList?.find((course) => course.courseId === courseId);
         if (!courseExists) {
             return next(new ErrorHandler_1.default("You are not enrolled in this course", 404));
         }
