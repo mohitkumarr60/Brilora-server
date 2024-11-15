@@ -13,7 +13,7 @@ const ejs_1 = __importDefault(require("ejs"));
 const path_1 = __importDefault(require("path"));
 const sendMail_1 = __importDefault(require("../utils/sendMail"));
 const jwt_1 = require("../utils/jwt");
-const redis_1 = require("../utils/redis");
+const redis_1 = __importDefault(require("../utils/redis"));
 const user_service_1 = require("../services/user.service");
 const cloudinary_1 = __importDefault(require("cloudinary"));
 const course_model_1 = __importDefault(require("../models/course.model"));
@@ -119,7 +119,7 @@ exports.logoutUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
         res.cookie("access_token", "", { maxAge: 1 });
         res.cookie("refresh_token", "", { maxAge: 1 });
         const userId = req.user?._id || "";
-        redis_1.redis.del(userId);
+        redis_1.default.del(userId);
         res.status(200).json({
             success: true,
             message: "Logged out successfully"
@@ -138,7 +138,7 @@ async function updateAccessToken(req, res, next) {
     try {
         const decoded = jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN);
         const userId = decoded.id;
-        const user = await redis_1.redis.get(userId);
+        const user = await redis_1.default.get(userId);
         if (!user) {
             throw new ErrorHandler_1.default("User not found, please login again.", 401);
         }
@@ -193,7 +193,7 @@ exports.updateUserInfo = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res
             user.name = name;
         }
         await user?.save();
-        await redis_1.redis.set(userId, JSON.stringify(user));
+        await redis_1.default.set(userId, JSON.stringify(user));
         res.status(201).json({
             success: true,
             user,
@@ -219,7 +219,7 @@ exports.updatePassword = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res
         }
         user.password = newPassword;
         await user.save();
-        await redis_1.redis.set(req.user?._id, JSON.stringify(user));
+        await redis_1.default.set(req.user?._id, JSON.stringify(user));
         res.status(201).json({
             success: true,
             user,
@@ -259,7 +259,7 @@ exports.updateProfilePicture = (0, catchAsyncErrors_1.CatchAsyncError)(async (re
             }
         }
         await user?.save();
-        await redis_1.redis.set(userId, JSON.stringify(user));
+        await redis_1.default.set(userId, JSON.stringify(user));
         res.status(201).json({
             success: true,
             user,
@@ -309,7 +309,7 @@ exports.deleteUser = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
             await cloudinary_1.default.v2.uploader.destroy(user?.avatar?.public_id);
         }
         await user.deleteOne({ id });
-        await redis_1.redis.del(id);
+        await redis_1.default.del(id);
         res.status(201).json({
             success: true,
             message: "User deleted successfully",
@@ -346,7 +346,7 @@ const markModuleComplete = async (req, res, next) => {
             return next(new ErrorHandler_1.default("Module already marked as complete", 400));
         }
         await user.save();
-        await redis_1.redis.set(userId, JSON.stringify(user));
+        await redis_1.default.set(userId, JSON.stringify(user));
         res.status(201).json({
             success: true,
             message: "Module marked as complete",
@@ -382,7 +382,7 @@ const markModuleIncomplete = async (req, res, next) => {
             course.progress = ((course.modules.length / currentCourse.courseData.length) * 100);
         }
         await user.save();
-        await redis_1.redis.set(userId, JSON.stringify(user));
+        await redis_1.default.set(userId, JSON.stringify(user));
         res.status(201).json({
             success: true,
             message: "Module marked as incomplete",

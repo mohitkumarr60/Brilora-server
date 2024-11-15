@@ -7,7 +7,7 @@ exports.authorizeRoles = exports.isAuthenticated = void 0;
 const catchAsyncErrors_1 = require("./catchAsyncErrors");
 const ErrorHandler_1 = __importDefault(require("../utils/ErrorHandler"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const redis_1 = require("../utils/redis");
+const redis_1 = __importDefault(require("../utils/redis"));
 const user_controller_1 = require("../controllers/user.controller");
 //authenticated user
 exports.isAuthenticated = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, next) => {
@@ -17,7 +17,7 @@ exports.isAuthenticated = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, re
     }
     try {
         const decoded = jsonwebtoken_1.default.verify(accessToken, process.env.ACCESS_TOKEN);
-        const user = await redis_1.redis.get(decoded.id);
+        const user = await redis_1.default.get(decoded.id);
         if (!user) {
             return next(new ErrorHandler_1.default("User not found, please login again.", 401));
         }

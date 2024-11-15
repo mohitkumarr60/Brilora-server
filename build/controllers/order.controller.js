@@ -13,7 +13,7 @@ const ejs_1 = __importDefault(require("ejs"));
 const sendMail_1 = __importDefault(require("../utils/sendMail"));
 const notification_Model_1 = __importDefault(require("../models/notification.Model"));
 const order_service_1 = require("../services/order.service");
-const redis_1 = require("../utils/redis");
+const redis_1 = __importDefault(require("../utils/redis"));
 //create order
 exports.createOrder = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, next) => {
     try {
@@ -61,7 +61,7 @@ exports.createOrder = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, n
             courseId: course?._id, progress: 0, modules: []
         };
         user?.courses.push(coursesData);
-        await redis_1.redis.set(req.user?._id, JSON.stringify(user));
+        await redis_1.default.set(req.user?._id, JSON.stringify(user));
         await user?.save();
         await notification_Model_1.default.create({
             user: user?._id,

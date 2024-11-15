@@ -9,7 +9,7 @@ import ejs, { name } from "ejs";
 import sendMail from "../utils/sendMail";
 import NotificationModel from "../models/notification.Model";
 import { getAllOrdersService, newOrder } from "../services/order.service";
-import { redis } from "../utils/redis";
+import redis from "../utils/redis";
 
 //create order
 export const createOrder = CatchAsyncError(async (req: Request, res: Response, next: NextFunction) => {

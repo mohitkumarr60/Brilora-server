@@ -12,7 +12,7 @@ const ejs_1 = __importDefault(require("ejs"));
 const course_service_1 = require("../services/course.service");
 const course_model_1 = __importDefault(require("../models/course.model"));
 const featured_model_1 = __importDefault(require("../models/featured.model"));
-const redis_1 = require("../utils/redis");
+const redis_1 = __importDefault(require("../utils/redis"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const path_1 = __importDefault(require("path"));
 const sendMail_1 = __importDefault(require("../utils/sendMail"));
@@ -79,7 +79,7 @@ exports.editCourse = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, ne
 exports.getSingleCourse = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, next) => {
     try {
         const courseId = req.params.id;
-        const isCacheExist = await redis_1.redis.get(courseId);
+        const isCacheExist = await redis_1.default.get(courseId);
         if (isCacheExist) {
             const course = JSON.parse(isCacheExist);
             res.status(200).json({
@@ -89,7 +89,7 @@ exports.getSingleCourse = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, re
         }
         else {
             const course = await course_model_1.default.findById(courseId).select("-courseData.videoUrl -courseData.suggestion -courseData.questions -courseData.links");
-            await redis_1.redis.set(courseId, JSON.stringify(course), 'EX', 432000);
+            await redis_1.default.set(courseId, JSON.stringify(course), 'EX', 432000);
             res.status(200).json({
                 success: true,
                 course,
@@ -316,7 +316,7 @@ exports.addReview = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, nex
             course.ratings = avg / course.reviews.length;
         }
         await course?.save();
-        await redis_1.redis.set(courseId, JSON.stringify(course), "EX", 604800);
+        await redis_1.default.set(courseId, JSON.stringify(course), "EX", 604800);
         //create notification
         await notification_Model_1.default.create({
             user: req.user?._id,
@@ -354,7 +354,7 @@ exports.addReplyToReview = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, r
         }
         review.commentReplies?.push(replyData);
         await course?.save();
-        await redis_1.redis.set(courseId, JSON.stringify(course), "EX", 604800);
+        await redis_1.default.set(courseId, JSON.stringify(course), "EX", 604800);
         res.status(200).json({
             success: true,
             course,
@@ -382,7 +382,7 @@ exports.deleteCourse = (0, catchAsyncErrors_1.CatchAsyncError)(async (req, res, 
             return next(new ErrorHandler_1.default("Course not found", 404));
         }
         await course.deleteOne({ id });
-        await redis_1.redis.del(id);
+        await redis_1.default.del(id);
         res.status(200).json({
             success: true,
             message: "Course deleted successfully",

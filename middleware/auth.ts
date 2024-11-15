@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import { CatchAsyncError } from "./catchAsyncErrors";
 import ErrorHandler from "../utils/ErrorHandler";
 import jwt, { JwtPayload } from "jsonwebtoken";
-import { redis } from "../utils/redis";
+import redis from "../utils/redis";
 import { updateAccessToken } from "../controllers/user.controller";
 
 //authenticated user

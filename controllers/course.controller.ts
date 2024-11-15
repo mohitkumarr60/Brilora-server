@@ -7,7 +7,7 @@ import ejs from "ejs";
 import { createCourse, getAllCoursesService } from "../services/course.service";
 import CourseModel from "../models/course.model";
 import FeaturedModel from "../models/featured.model";
-import { redis } from "../utils/redis";
+import redis from "../utils/redis";
 import mongoose from "mongoose";
 import path from "path";
 import sendMail from "../utils/sendMail";

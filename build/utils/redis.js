@@ -1,13 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.redis = void 0;
 const ioredis_1 = require("ioredis");
 require("dotenv").config();
-const redisClient = () => {
-    if (process.env.REDIS_URL) {
-        console.log(`Redis Connected`);
-        return process.env.REDIS_URL;
+let redis;
+try {
+    const redisUrl = process.env.REDIS_URL;
+    if (!redisUrl) {
+        throw new Error("Environment variable REDIS_URL is not set.");
     }
-    throw new Error(`Redis connection failed`);
-};
-exports.redis = new ioredis_1.Redis(redisClient());
+    redis = new ioredis_1.Redis(redisUrl);
+    // Optional: Add event listeners for better debugging
+    redis.on("connect", () => {
+        console.log("Redis connected successfully.");
+    });
+    redis.on("error", (err) => {
+        console.error("Redis connection error:", err.message);
+    });
+    redis.on("close", () => {
+        console.warn("Redis connection closed.");
+    });
+}
+catch (error) {
+    console.error("Failed to initialize Redis:", error.message);
+    process.exit(1); // Exit the application on critical failure
+}
+exports.default = redis;

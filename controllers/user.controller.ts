@@ -8,7 +8,7 @@ import ejs from "ejs";
 import path from "path";
 import sendMail from "../utils/sendMail";
 import { accessTokenExpire, accessTokenOptions, refreshTokenExpire, refreshTokenOptions, sendToken } from "../utils/jwt";
-import { redis } from "../utils/redis";
+import redis from "../utils/redis";
 import { getAllUsersService, getUserById, updateUserRoleService } from "../services/user.service";
 import cloudinary from "cloudinary";
 import CourseModel from "../models/course.model";
